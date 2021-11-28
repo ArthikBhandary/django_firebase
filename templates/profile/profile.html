@@ -1,0 +1,24 @@
+<html>
+<h1> {{ user.username|capfirst }}'s Profile </h1>
+<a class="waves-effect waves-light btn" href="{% url "course:all_courses" %}"><i class="material-icons left">list</i>Course
+    List</a>
+<a class="waves-effect waves-light btn" href="{% url "course:course_create" %}"><i class="material-icons left">plus</i>Create Course</a>
+<form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="fieldWrapper">
+            {{ field.errors }}
+            {{ field.label_tag }} {{ field }}
+            {% if field.help_text %}
+                <p class="help">{{ field.help_text|safe }}</p>
+            {% endif %}
+        </div>
+        <br/>
+    {% endfor %}
+    <button type="submit">Submit</button>
+    <br/>
+</form>
+<br/>
+<button type="button"><a href="{% url "account_logout" %}">Logout</a></button>
+
+</html>
