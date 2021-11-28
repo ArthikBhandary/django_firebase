@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+    <a class="waves-effect waves-light btn"><i class="material-icons left">plus</i>Create Course</a>
+    {% for course in object_list %}
+        <div class="card">
+            <p>{{ course.name }}</p>
+            <a class="waves-effect waves-light btn"><i class="material-icons left">left</i>View videos</a>
+        </div>
+    {% endfor %}
+{% endblock %}

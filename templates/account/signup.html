@@ -1,0 +1,64 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load static %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Sign Up" %}{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+    <div class="row">
+        <div class="card col s10 m6 l3 push-s2 push-m3 push-l4" style="max-width: 500px;">
+            <div class="container">
+                <form class="signup" method="POST" action="{% url 'account_signup' %}">
+                    {% csrf_token %}
+                    <div class="section"></div>
+                    <h4 class="center"><b>Sign Up</b></h4>
+                    {% for field in form %}
+                        <div class="input-field col s12">
+                            <input id="{{ field.id_for_label }}" class="validate"
+                                   type="{{ field.field.widget.input_type }}" name="{{ field.html_name }}"
+                                   required>
+                            <label class="red-text" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        </div>
+                        {% for error in field.errors %}
+                            <p class="red-text text-darken-2"><b><i
+                                    class="material-icons inline-icon">error_outline</i>{{ error }}</b></p>
+                        {% endfor %}
+                    {% endfor %}
+
+                    {#                    <div class="fieldWrapper">#}
+                    {#                        {{ field.errors }}#}
+                    {#                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>#}
+                    {#                        {{ field }}#}
+                    {#                    </div>#}
+                    {% for error in form.non_field_errors %}
+                        <p class="red-text text-darken-2"><b><i
+                                    class="material-icons inline-icon">error_outline</i>{{ error }}</b></p>
+                    {% endfor %}
+                    <div class="section"></div>
+                    {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                    {% endif %}
+                    <button class="red btn waves-effect waves-light primaryAction" type="submit" name="action">Sign up
+                        <i class="material-icons right">send</i>
+                    </button>
+                    <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>
+                        .{% endblocktrans %}</p>
+                </form>
+                <div class="section"></div>
+                <a href="{% provider_login_url "google" %}"><img src="{% static "img/google.png" %}" width="80%"></a>
+                <br/>
+                Note: Google Oauth only works for test users which I need to add, since the app isn't verified. Give me
+                your mail, and I will add you as a test user
+                <div class="section"></div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
