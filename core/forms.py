@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.forms import AuthenticationForm
 
 from core.models import Profile
 
@@ -12,3 +13,16 @@ class SignUpProfileForm(SignupForm):
 
 class ProfileForm(forms.ModelForm):
     model = Profile
+
+
+class FirebaseAuthenticationForm(AuthenticationForm):
+    def clean(self):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+
+        if username is not None and password:
+            self.user_cache = authenticate(self.request, username=username, password=password)
+            if self.user_cache is None:
+                raise self.get_invalid_login_error()
+
+        return self.cleaned_data

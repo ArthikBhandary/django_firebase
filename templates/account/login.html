@@ -15,17 +15,18 @@
     <div class="row">
         <div class="card col s10 m6 l3 push-s2 push-m3 push-l4" style="max-width:500px;">
             <div class="container">
-                <form class="login" method="POST" action="{% url 'account_login' %}">
+                <form class="login" method="POST" >
                     {% csrf_token %}
                     <div class="section"></div>
                     <h4 class="center"><b>Login</b></h4>
                     <div class="input-field col s12">
                         <i class="material-icons prefix">account_circle</i>
                         <input id="{{ form.login.id_for_label }}" class="validate" type="text"
-                               name="{{ form.login.html_name }}"
+                               name="email"
                                required>
                         <label class="red-text" for="{{ form.login.id_for_label }}">Username</label>
                     </div>
+                <p class="red-text text-darken-2"><b>{{ error }}</b></p>
                 {% for error in form.login.errors %}
                             <p class="red-text text-darken-2"><b><i
                                     class="material-icons inline-icon ">error_outline</i>{{ error }}</b></p>
@@ -33,7 +34,7 @@
                     <div class="input-field col s12">
                         <i class="material-icons prefix">lock</i>
                         <input id="{{ form.password.id_for_label }}" class="validate" type="password"
-                               name="{{ form.password.html_name }}"
+                               name="password"
                                required>
                         <label class="red-text" for="{{ form.password.id_for_label }}">Password</label>
                     </div>
